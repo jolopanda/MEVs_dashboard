@@ -3,7 +3,9 @@ import { INDICATOR_CONFIGS } from "../constants";
 import { EconomicIndicator } from "../types";
 
 export const fetchEconomicData = async () => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  // Use type assertion for process.env to satisfy tsc
+  const apiKey = (process.env as any).API_KEY as string;
+  const ai = new GoogleGenAI({ apiKey });
   
   const prompt = `
     Find the latest 12 months (or last 4-6 available quarters) of data for the following economic indicators:
@@ -45,17 +47,24 @@ export const fetchEconomicData = async () => {
     }
 
     const rawData = JSON.parse(jsonMatch[0]);
-    const groundingSources = response.candidates?.[0]?.groundingMetadata?.groundingChunks?.map(chunk => ({
-      title: chunk.web?.title || "Search Result",
-      uri: chunk.web?.uri || "#"
-    })) || [];
+    
+    // Safely extract grounding sources using any cast for deep property access during build
+    const candidates = (response as any).candidates;
+    const groundingChunks = candidates?.[0]?.groundingMetadata?.groundingChunks;
+    
+    const groundingSources = Array.isArray(groundingChunks) 
+      ? groundingChunks.map((chunk: any) => ({
+          title: chunk.web?.title || "Search Result",
+          uri: chunk.web?.uri || "#"
+        })) 
+      : [];
 
     const indicators: EconomicIndicator[] = INDICATOR_CONFIGS.map(config => {
       const fetched = rawData.indicators?.find((ind: any) => ind.id === config.id);
       return {
         ...config,
         data: fetched && Array.isArray(fetched.data) ? fetched.data : []
-      };
+      } as EconomicIndicator;
     });
 
     return {

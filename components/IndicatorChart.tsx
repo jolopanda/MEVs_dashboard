@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   LineChart, 
@@ -20,8 +19,31 @@ interface Props {
 
 const IndicatorChart: React.FC<Props> = ({ indicator }) => {
   const isPercentage = indicator.unit.includes('%');
-  const ChartComponent = isPercentage ? AreaChart : LineChart;
-  const DataComponent = isPercentage ? Area : Line;
+
+  const chartMargins = { top: 10, right: 10, left: -20, bottom: 0 };
+  const commonXAxis = (
+    <XAxis 
+      dataKey="date" 
+      axisLine={false} 
+      tickLine={false} 
+      tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
+    />
+  );
+  const commonYAxis = (
+    <YAxis 
+      axisLine={false} 
+      tickLine={false} 
+      tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
+    />
+  );
+  const commonTooltip = (
+    <Tooltip 
+      contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+      itemStyle={{ fontWeight: 700, color: '#2563eb' }}
+      cursor={{ stroke: '#94a3b8', strokeWidth: 1 }}
+    />
+  );
+  const commonGrid = <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
@@ -48,34 +70,36 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
       <div className="p-5 flex-grow">
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <ChartComponent data={indicator.data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-              <XAxis 
-                dataKey="date" 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
-              />
-              <YAxis 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 500 }}
-              />
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                itemStyle={{ fontWeight: 700, color: '#2563eb' }}
-                cursor={{ stroke: '#94a3b8', strokeWidth: 1 }}
-              />
-              <DataComponent 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#2563eb" 
-                fill="#eff6ff"
-                strokeWidth={3} 
-                dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
-                activeDot={{ r: 6, strokeWidth: 0 }}
-              />
-            </ChartComponent>
+            {isPercentage ? (
+              <AreaChart data={indicator.data} margin={chartMargins}>
+                {commonGrid}
+                {commonXAxis}
+                {commonYAxis}
+                {commonTooltip}
+                <Area 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#2563eb" 
+                  fill="#eff6ff"
+                  strokeWidth={3} 
+                />
+              </AreaChart>
+            ) : (
+              <LineChart data={indicator.data} margin={chartMargins}>
+                {commonGrid}
+                {commonXAxis}
+                {commonYAxis}
+                {commonTooltip}
+                <Line 
+                  type="monotone" 
+                  dataKey="value" 
+                  stroke="#2563eb" 
+                  strokeWidth={3} 
+                  dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
+                  activeDot={{ r: 6, strokeWidth: 0 }}
+                />
+              </LineChart>
+            )}
           </ResponsiveContainer>
         </div>
 
