@@ -49,7 +49,7 @@ const App: React.FC = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-slate-900 leading-none">Macroeconomic Indicators</h1>
-              <p className="text-xs text-slate-500 font-medium tracking-tight">Real-time Economic Intelligence Dashboard</p>
+              <p className="text-xs text-slate-500 font-medium tracking-tight">Real-time Economic Variables</p>
             </div>
           </div>
           
@@ -166,7 +166,7 @@ const App: React.FC = () => {
           Data provided for informational purposes only. Values are sourced from EIA, PSA, and BSP.
         </p>
         <p className="text-[10px] text-slate-400 mt-2 uppercase tracking-widest font-bold">
-          Macroeconomic Indicators Dashboard &copy; 2024 • Powered by Gemini AI
+          Macroeconomic Indicators Dashboard &copy; 2026 • Designed by Jose Lorenzo Chua
         </p>
       </footer>
     </div>
