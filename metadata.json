@@ -1,0 +1,5 @@
+{
+  "name": "Macroeconomic Indicators Dashboard",
+  "description": "A high-performance economic dashboard tracking key global and Philippines-specific indicators including WTI Crude, CPI, GDP, and Unemployment with real-time data powered by Gemini Search Grounding.",
+  "requestFramePermissions": []
+}
