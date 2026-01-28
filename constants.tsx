@@ -1,6 +1,6 @@
 import { EconomicIndicator } from './types';
 
-export const INDICATOR_CONFIGS: Partial<EconomicIndicator>[] = [
+export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
   {
     id: 'WTI.Crude.Oil.Spot',
     name: 'West Texas Intermediate (WTI) Crude Oil Spot',

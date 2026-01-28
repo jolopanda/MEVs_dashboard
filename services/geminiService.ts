@@ -1,10 +1,10 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { INDICATOR_CONFIGS } from "../constants";
-
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+import { EconomicIndicator } from "../types";
 
 export const fetchEconomicData = async () => {
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  
   const prompt = `
     Find the latest 12 months (or last 4-6 available quarters) of data for the following economic indicators:
     1. WTI.Crude.Oil.Spot (Monthly)
@@ -21,26 +21,7 @@ export const fetchEconomicData = async () => {
           "id": "WTI.Crude.Oil.Spot",
           "data": [{"date": "2024-01", "value": 75.5}, ...]
         },
-        {
-          "id": "CPI.All.Item",
-          "data": [...]
-        },
-        {
-          "id": "Inf.All.Item",
-          "data": [...]
-        },
-        {
-          "id": "GDP.Constant",
-          "data": [...]
-        },
-        {
-          "id": "Unemployment",
-          "data": [...]
-        },
-        {
-          "id": "GNI.GDP.Wholesale.and.Retail",
-          "data": [...]
-        }
+        ... (repeat for all 6 IDs)
       ]
     }
     
@@ -69,12 +50,12 @@ export const fetchEconomicData = async () => {
       uri: chunk.web?.uri || "#"
     })) || [];
 
-    const indicators = INDICATOR_CONFIGS.map(config => {
-      const fetched = rawData.indicators.find((ind: any) => ind.id === config.id);
+    const indicators: EconomicIndicator[] = INDICATOR_CONFIGS.map(config => {
+      const fetched = rawData.indicators?.find((ind: any) => ind.id === config.id);
       return {
         ...config,
-        data: fetched ? fetched.data : []
-      } as any;
+        data: fetched && Array.isArray(fetched.data) ? fetched.data : []
+      };
     });
 
     return {
