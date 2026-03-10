@@ -21,11 +21,27 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
   const isPercentage = indicator.unit.includes('%');
   const hasForecast = indicator.forecastData && indicator.forecastData.length > 0;
   
-  // To connect actual and forecast, the forecast line starts from the last actual point
-  const lastActualPoint = indicator.data.length > 0 ? indicator.data[indicator.data.length - 1] : null;
-  const forecastLineData = lastActualPoint && hasForecast 
-    ? [lastActualPoint, ...indicator.forecastData!] 
-    : (indicator.forecastData || []);
+  // Combine actual and forecast data into a single array for a continuous X-axis
+  const combinedData = indicator.data.map(d => ({
+    date: d.date,
+    actual: d.value as number | null,
+    forecast: null as number | null
+  }));
+
+  if (hasForecast) {
+    const lastActual = indicator.data[indicator.data.length - 1];
+    if (lastActual && combinedData.length > 0) {
+      // Start the forecast line from the last actual point to connect them
+      combinedData[combinedData.length - 1].forecast = lastActual.value;
+    }
+    indicator.forecastData!.forEach(d => {
+      combinedData.push({
+        date: d.date,
+        actual: null,
+        forecast: d.value
+      });
+    });
+  }
 
   const chartMargins = { top: 10, right: 10, left: -20, bottom: 0 };
   const commonXAxis = (
@@ -83,60 +99,60 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             {isPercentage ? (
-              <AreaChart margin={chartMargins}>
+              <AreaChart data={combinedData} margin={chartMargins}>
                 {commonGrid}
                 {commonXAxis}
                 {commonYAxis}
                 {commonTooltip}
                 <Area 
-                  data={indicator.data}
                   type="monotone" 
-                  dataKey="value" 
+                  dataKey="actual" 
                   stroke="#2563eb" 
                   fill="#eff6ff"
                   strokeWidth={3} 
                   name="Actual"
+                  connectNulls
                 />
                 {hasForecast && (
                   <Area 
-                    data={forecastLineData}
                     type="monotone" 
-                    dataKey="value" 
+                    dataKey="forecast" 
                     stroke="#f97316" 
                     fill="transparent"
                     strokeWidth={3} 
                     strokeDasharray="5 5"
                     name="Forecast"
+                    connectNulls
                   />
                 )}
               </AreaChart>
             ) : (
-              <LineChart margin={chartMargins}>
+              <LineChart data={combinedData} margin={chartMargins}>
                 {commonGrid}
                 {commonXAxis}
                 {commonYAxis}
                 {commonTooltip}
                 <Line 
-                  data={indicator.data}
                   type="monotone" 
-                  dataKey="value" 
+                  dataKey="actual" 
                   stroke="#2563eb" 
                   strokeWidth={3} 
                   dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
                   name="Actual"
+                  connectNulls
                 />
                 {hasForecast && (
                   <Line 
-                    data={forecastLineData}
                     type="monotone" 
-                    dataKey="value" 
+                    dataKey="forecast" 
                     stroke="#f97316" 
                     strokeWidth={3} 
                     strokeDasharray="5 5"
                     dot={{ r: 4, fill: '#f97316', strokeWidth: 2, stroke: '#fff' }}
                     activeDot={{ r: 6, strokeWidth: 0 }}
                     name="Forecast"
+                    connectNulls
                   />
                 )}
               </LineChart>
