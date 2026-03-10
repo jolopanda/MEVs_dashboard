@@ -16,7 +16,7 @@ export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
     unit: 'Index (2018=100)',
     frequency: 'Monthly',
     sourceName: 'BSP / PSA',
-    sourceUrl: 'https://www.bsp.gov.ph/SitePages/Statistics/Prices.aspx?TabId=1',
+    sourceUrl: 'https://psa.gov.ph/statistics/price-indices/cpi-ir',
     description: 'Measure of the average change over time in the prices paid for a market basket of consumer goods.'
   },
   {
@@ -25,7 +25,7 @@ export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
     unit: '% YoY',
     frequency: 'Monthly',
     sourceName: 'BSP / PSA',
-    sourceUrl: 'https://www.bsp.gov.ph/SitePages/Statistics/Prices.aspx?TabId=1',
+    sourceUrl: 'https://psa.gov.ph/statistics/price-indices/cpi-ir',
     description: 'The annual rate of change in the Consumer Price Index.'
   },
   {
@@ -34,7 +34,7 @@ export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
     unit: '% Growth',
     frequency: 'Quarterly',
     sourceName: 'PSA OpenStat',
-    sourceUrl: 'https://openstat.psa.gov.ph/PXWeb/pxweb/en/DB/DB__2B__NA__QT__1SUM/0012B5CEXQ1.px/?rxid=1cc70d4f-e616-44f7-aec5-5146d51f386f',
+    sourceUrl: 'https://psa.gov.ph/statistics/national-accounts',
     description: 'Real Gross Domestic Product growth reflecting economic volume changes at constant prices.'
   },
   {
@@ -43,7 +43,7 @@ export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
     unit: '%',
     frequency: 'Quarterly',
     sourceName: 'BSP',
-    sourceUrl: 'https://www.bsp.gov.ph/SitePages/Statistics/OtherRealSectorAccounts.aspx?TabId=6',
+    sourceUrl: 'https://psa.gov.ph/statistics/labor-force-survey',
     description: 'Percentage of the labor force that is jobless and actively seeking employment.'
   },
   {
@@ -52,7 +52,7 @@ export const INDICATOR_CONFIGS: Omit<EconomicIndicator, 'data'>[] = [
     unit: 'PHP Millions',
     frequency: 'Quarterly',
     sourceName: 'BSP',
-    sourceUrl: 'https://www.bsp.gov.ph/SitePages/Statistics/RealSectorAccounts.aspx?TabId=3',
+    sourceUrl: 'https://psa.gov.ph/statistics/national-accounts',
     description: 'Data covering Gross National Income and GDP with focus on Wholesale and Retail trade sectors.'
   }
 ];
