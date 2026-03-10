@@ -52,23 +52,18 @@ const App: React.FC = () => {
         <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <i className="fa-solid fa-chart-column text-white text-xl"></i>
-              </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900 leading-none">Macroeconomic Indicators</h1>
-                <p className="text-xs text-slate-500 font-medium tracking-tight">Real-time Economic Variables</p>
+                <img 
+                  src="https://lh3.googleusercontent.com/d/1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
+                  alt="Proprietary Logo" 
+                  className="h-12 object-contain" 
+                  referrerPolicy="no-referrer" 
+                />
               </div>
             </div>
             
             <div className="flex items-center gap-4">
               <span className="hidden md:flex flex-col items-end">
-                <img 
-                  src="https://drive.google.com/uc?export=view&id=1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
-                  alt="Proprietary Logo" 
-                  className="h-6 mb-1" 
-                  referrerPolicy="no-referrer" 
-                />
                 <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Last Updated</span>
                 <span className="text-xs text-slate-600 font-medium">{state.lastUpdated || 'Updating...'}</span>
               </span>
@@ -89,7 +84,7 @@ const App: React.FC = () => {
         {/* Welcome Section - Hidden in Embed Mode */}
         {!isEmbed && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-slate-800">Indicator Visualizations</h2>
+            <h2 className="text-2xl font-bold text-slate-800">Macroeconomic Indicators</h2>
             <p className="text-slate-500 mt-1">Comprehensive tracking of the latest 12 months (or quarters) of critical economic data.</p>
           </div>
         )}
@@ -191,7 +186,7 @@ const App: React.FC = () => {
             Macroeconomic Indicators Dashboard &copy; 2026 • Designed by Jose Lorenzo Chua
           </p>
           <img 
-            src="https://drive.google.com/uc?export=view&id=1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
+            src="https://lh3.googleusercontent.com/d/1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
             alt="Proprietary Logo" 
             className="h-8 mt-6 opacity-80" 
             referrerPolicy="no-referrer" 
