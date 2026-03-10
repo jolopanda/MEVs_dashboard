@@ -12,6 +12,8 @@ export interface EconomicIndicator {
   sourceName: string;
   sourceUrl: string;
   data: DataPoint[];
+  forecastData?: DataPoint[];
+  forecastSources?: Array<{ title: string; uri: string }>;
   description: string;
 }
 

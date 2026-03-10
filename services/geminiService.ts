@@ -16,19 +16,26 @@ export const fetchEconomicData = async () => {
     5. Unemployment (Quarterly, Philippines)
     6. GNI.GDP.Wholesale.and.Retail (Quarterly, Philippines)
 
+    Additionally, provide a short-term forecast (next 3-6 months or 1-2 quarters) for each indicator based on current global and local economic events (e.g., OPEC+ decisions, BSP interest rate outlook, geopolitical tensions).
+
     Return the data strictly as a valid JSON object with the following structure:
     {
       "indicators": [
         {
           "id": "WTI.Crude.Oil.Spot",
-          "data": [{"date": "2024-01", "value": 75.5}, ...]
+          "data": [{"date": "2024-01", "value": 75.5}, ...],
+          "forecastData": [{"date": "2025-04", "value": 82.0}, ...],
+          "forecastSources": [{"title": "Reuters: Oil Price Outlook", "uri": "https://..."}]
         },
         ... (repeat for all 6 IDs)
       ]
     }
     
-    Ensure the "date" field uses "YYYY-MM" format for monthly and "YYYY-QN" (e.g., 2024-Q1) for quarterly.
-    Use only the most recent available real-world data from 2024 and 2025.
+    Ensure:
+    1. The "date" field uses "YYYY-MM" format for monthly and "YYYY-QN" (e.g., 2024-Q1) for quarterly.
+    2. Use only the most recent available real-world data from 2024 and 2025.
+    3. The first point of "forecastData" should be the next period immediately following the last point in "data".
+    4. Provide at least 2 credible sources for each forecast in "forecastSources".
   `;
 
   try {
@@ -48,7 +55,7 @@ export const fetchEconomicData = async () => {
 
     const rawData = JSON.parse(jsonMatch[0]);
     
-    // Safely extract grounding sources using any cast for deep property access during build
+    // Safely extract grounding sources
     const candidates = (response as any).candidates;
     const groundingChunks = candidates?.[0]?.groundingMetadata?.groundingChunks;
     
@@ -63,7 +70,9 @@ export const fetchEconomicData = async () => {
       const fetched = rawData.indicators?.find((ind: any) => ind.id === config.id);
       return {
         ...config,
-        data: fetched && Array.isArray(fetched.data) ? fetched.data : []
+        data: fetched && Array.isArray(fetched.data) ? fetched.data : [],
+        forecastData: fetched && Array.isArray(fetched.forecastData) ? fetched.forecastData : [],
+        forecastSources: fetched && Array.isArray(fetched.forecastSources) ? fetched.forecastSources : []
       } as EconomicIndicator;
     });
 

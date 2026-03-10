@@ -19,6 +19,13 @@ interface Props {
 
 const IndicatorChart: React.FC<Props> = ({ indicator }) => {
   const isPercentage = indicator.unit.includes('%');
+  const hasForecast = indicator.forecastData && indicator.forecastData.length > 0;
+  
+  // To connect actual and forecast, the forecast line starts from the last actual point
+  const lastActualPoint = indicator.data.length > 0 ? indicator.data[indicator.data.length - 1] : null;
+  const forecastLineData = lastActualPoint && hasForecast 
+    ? [lastActualPoint, ...indicator.forecastData!] 
+    : (indicator.forecastData || []);
 
   const chartMargins = { top: 10, right: 10, left: -20, bottom: 0 };
   const commonXAxis = (
@@ -55,6 +62,11 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
               {indicator.frequency}
             </span>
             <span className="text-xs text-slate-500 font-medium">{indicator.unit}</span>
+            {hasForecast && (
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded uppercase bg-orange-100 text-orange-700">
+                Forecast Included
+              </span>
+            )}
           </div>
         </div>
         <button 
@@ -71,33 +83,62 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             {isPercentage ? (
-              <AreaChart data={indicator.data} margin={chartMargins}>
+              <AreaChart margin={chartMargins}>
                 {commonGrid}
                 {commonXAxis}
                 {commonYAxis}
                 {commonTooltip}
                 <Area 
+                  data={indicator.data}
                   type="monotone" 
                   dataKey="value" 
                   stroke="#2563eb" 
                   fill="#eff6ff"
                   strokeWidth={3} 
+                  name="Actual"
                 />
+                {hasForecast && (
+                  <Area 
+                    data={forecastLineData}
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#f97316" 
+                    fill="transparent"
+                    strokeWidth={3} 
+                    strokeDasharray="5 5"
+                    name="Forecast"
+                  />
+                )}
               </AreaChart>
             ) : (
-              <LineChart data={indicator.data} margin={chartMargins}>
+              <LineChart margin={chartMargins}>
                 {commonGrid}
                 {commonXAxis}
                 {commonYAxis}
                 {commonTooltip}
                 <Line 
+                  data={indicator.data}
                   type="monotone" 
                   dataKey="value" 
                   stroke="#2563eb" 
                   strokeWidth={3} 
                   dot={{ r: 4, fill: '#2563eb', strokeWidth: 2, stroke: '#fff' }}
                   activeDot={{ r: 6, strokeWidth: 0 }}
+                  name="Actual"
                 />
+                {hasForecast && (
+                  <Line 
+                    data={forecastLineData}
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#f97316" 
+                    strokeWidth={3} 
+                    strokeDasharray="5 5"
+                    dot={{ r: 4, fill: '#f97316', strokeWidth: 2, stroke: '#fff' }}
+                    activeDot={{ r: 6, strokeWidth: 0 }}
+                    name="Forecast"
+                  />
+                )}
               </LineChart>
             )}
           </ResponsiveContainer>
@@ -108,17 +149,39 @@ const IndicatorChart: React.FC<Props> = ({ indicator }) => {
             {indicator.description}
           </p>
           
-          <div className="flex flex-col gap-1.5 pt-3 border-t border-slate-100">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Official Data Source:</span>
-            <a 
-              href={indicator.sourceUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group flex items-center justify-between p-2 rounded-lg bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 transition-all"
-            >
-              <span className="text-xs font-semibold text-slate-700 group-hover:text-blue-700 truncate">{indicator.sourceName}</span>
-              <i className="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-blue-500"></i>
-            </a>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-100">
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Official Data Source:</span>
+              <a 
+                href={indicator.sourceUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group flex items-center justify-between p-2 rounded-lg bg-slate-50 hover:bg-blue-50 border border-slate-100 hover:border-blue-200 transition-all"
+              >
+                <span className="text-xs font-semibold text-slate-700 group-hover:text-blue-700 truncate">{indicator.sourceName}</span>
+                <i className="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-blue-500"></i>
+              </a>
+            </div>
+
+            {indicator.forecastSources && indicator.forecastSources.length > 0 && (
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-orange-500">Forecast Intelligence:</span>
+                <div className="space-y-1">
+                  {indicator.forecastSources.map((source, idx) => (
+                    <a 
+                      key={idx}
+                      href={source.uri} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between p-1.5 rounded-lg bg-orange-50/50 hover:bg-orange-50 border border-orange-100/50 hover:border-orange-200 transition-all"
+                    >
+                      <span className="text-[10px] font-medium text-slate-600 group-hover:text-orange-700 truncate">{source.title}</span>
+                      <i className="fa-solid fa-link text-[8px] text-orange-300 group-hover:text-orange-500"></i>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
