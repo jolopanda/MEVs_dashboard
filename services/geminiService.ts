@@ -17,7 +17,7 @@ export const fetchEconomicData = async () => {
     6. GNI.GDP.Wholesale.and.Retail (Quarterly, Philippines)
 
     Additionally, provide a short-term forecast (next 3-6 months or 1-2 quarters) for each indicator based on current global and local economic events.
-    CRITICAL: For the oil forecast (WTI.Crude.Oil.Spot), specifically analyze the current war in Iran and the Middle East. Create a more aggressive but realistic forecast reflecting these geopolitical tensions, and ensure you cite specific sources for this forecast.
+    CRITICAL: For the oil forecast (WTI.Crude.Oil.Spot), specifically analyze the current war in Iran and the Middle East. Create a HIGHLY AGGRESSIVE forecast reflecting severe supply disruptions and geopolitical tensions. You MUST provide at least 3-4 real, working source links for this aggressive oil forecast.
 
     Return the data strictly as a valid JSON object with the following structure:
     {
@@ -34,9 +34,10 @@ export const fetchEconomicData = async () => {
     
     Ensure:
     1. The "date" field uses "YYYY-MM" format for monthly and "YYYY-QN" (e.g., 2024-Q1) for quarterly.
-    2. Use only the most recent available real-world data from 2024 and 2025.
+    2. Use only the most recent available real-world data from 2024, 2025, and 2026.
     3. The first point of "forecastData" should be the next period immediately following the last point in "data".
     4. Provide at least 2 credible sources for each forecast in "forecastSources".
+    5. VERY IMPORTANT: For "forecastSources", you MUST ONLY use REAL, WORKING URLs that you found via the Google Search tool. DO NOT hallucinate or make up URLs. Verify that the URL actually exists in your search results before including it. If you cannot find a specific article URL, link to a general working category page (e.g., https://www.reuters.com/business/energy/).
   `;
 
   try {
