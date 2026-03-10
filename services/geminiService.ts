@@ -37,7 +37,7 @@ export const fetchEconomicData = async () => {
     2. Use only the most recent available real-world data from 2024, 2025, and 2026.
     3. The first point of "forecastData" should be the next period immediately following the last point in "data".
     4. Provide at least 2 credible sources for each forecast in "forecastSources".
-    5. VERY IMPORTANT: For "forecastSources", you MUST ONLY use REAL, WORKING URLs that you found via the Google Search tool. DO NOT hallucinate or make up URLs. Verify that the URL actually exists in your search results before including it. If you cannot find a specific article URL, link to a general working category page (e.g., https://www.reuters.com/business/energy/).
+    5. VERY IMPORTANT: For "forecastSources", DO NOT hallucinate URLs. You MUST ONLY use EXACT, REAL URLs from the Google Search results you just retrieved. If you are not 100% sure the URL is an exact match from your search results, use one of these safe fallback URLs instead: "https://www.reuters.com/business/energy/", "https://www.bloomberg.com/markets/commodities", "https://www.cnbc.com/oil-markets/", "https://www.bworldonline.com/", "https://business.inquirer.net/".
   `;
 
   try {
