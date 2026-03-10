@@ -16,7 +16,8 @@ export const fetchEconomicData = async () => {
     5. Unemployment (Quarterly, Philippines)
     6. GNI.GDP.Wholesale.and.Retail (Quarterly, Philippines)
 
-    Additionally, provide a short-term forecast (next 3-6 months or 1-2 quarters) for each indicator based on current global and local economic events (e.g., OPEC+ decisions, BSP interest rate outlook, geopolitical tensions).
+    Additionally, provide a short-term forecast (next 3-6 months or 1-2 quarters) for each indicator based on current global and local economic events.
+    CRITICAL: For the oil forecast (WTI.Crude.Oil.Spot), specifically analyze the current war in Iran and the Middle East. Create a more aggressive but realistic forecast reflecting these geopolitical tensions, and ensure you cite specific sources for this forecast.
 
     Return the data strictly as a valid JSON object with the following structure:
     {

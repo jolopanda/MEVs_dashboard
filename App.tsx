@@ -63,6 +63,12 @@ const App: React.FC = () => {
             
             <div className="flex items-center gap-4">
               <span className="hidden md:flex flex-col items-end">
+                <img 
+                  src="https://drive.google.com/uc?export=view&id=1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
+                  alt="Proprietary Logo" 
+                  className="h-6 mb-1" 
+                  referrerPolicy="no-referrer" 
+                />
                 <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Last Updated</span>
                 <span className="text-xs text-slate-600 font-medium">{state.lastUpdated || 'Updating...'}</span>
               </span>
@@ -177,13 +183,19 @@ const App: React.FC = () => {
 
       {/* Footer - Hidden in Embed Mode */}
       {!isEmbed && (
-        <footer className="mt-20 border-t border-slate-200 pt-8 pb-12 text-center px-4">
+        <footer className="mt-20 border-t border-slate-200 pt-8 pb-12 text-center px-4 flex flex-col items-center">
           <p className="text-sm text-slate-500">
             Data provided for informational purposes only. Values are sourced from EIA, PSA, and BSP.
           </p>
           <p className="text-[10px] text-slate-400 mt-2 uppercase tracking-widest font-bold">
             Macroeconomic Indicators Dashboard &copy; 2026 • Designed by Jose Lorenzo Chua
           </p>
+          <img 
+            src="https://drive.google.com/uc?export=view&id=1UvJnAXqjy7OwsYaxGZQ_SF3fw6A4fZZ9" 
+            alt="Proprietary Logo" 
+            className="h-8 mt-6 opacity-80" 
+            referrerPolicy="no-referrer" 
+          />
         </footer>
       )}
     </div>
